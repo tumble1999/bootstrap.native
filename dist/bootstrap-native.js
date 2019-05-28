@@ -1,4 +1,4 @@
-// Native Javascript for Bootstrap 3 v2.0.26 | © dnp_theme | MIT-License
+// Native Javascript for Bootstrap 3 v2.0.27 | © dnp_theme | MIT-License
 (function (root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD support:
@@ -319,7 +319,7 @@
       element.className[indexOf](position) === -1 && (element.className = element.className.replace(tipPositions,position));
     };
   
-  BSN.version = '2.0.26';
+  BSN.version = '2.0.27';
   
   /* Native Javascript for Bootstrap 3 | Affix
   -------------------------------------------*/
@@ -1170,8 +1170,8 @@
         // determine modal, triggering element
         btnCheck = element[getAttribute](dataTarget)||element[getAttribute]('href'),
         checkModal = queryElement( btnCheck ),
-        modal = hasClass(element,component) ? element : checkModal;  
-    
+        modal = hasClass(element,component) ? element : checkModal;
+  
       if ( hasClass(element, component) ) { element = null; } // modal is now independent of it's triggering element
   
     if ( !modal ) { return; } // invalidate
@@ -1182,6 +1182,7 @@
     this[keyboard] = options[keyboard] === false || modal[getAttribute](dataKeyboard) === 'false' ? false : true;
     this[backdrop] = options[backdrop] === staticString || modal[getAttribute](databackdrop) === staticString ? staticString : true;
     this[backdrop] = options[backdrop] === false || modal[getAttribute](databackdrop) === 'false' ? false : this[backdrop];
+    this[animation] = hasClass(modal, 'fade') ? true : false;
     this[content]  = options[content]; // JavaScript only
   
     // bind, constants, event targets and other vars
@@ -1232,16 +1233,15 @@
         scrollBarWidth = measureScrollbar();
       },
       createOverlay = function() {
-        modalOverlay = 1;
-        
         var newOverlay = DOC[createElement]('div');
         overlay = queryElement('.'+modalBackdropString);
   
         if ( overlay === null ) {
-          newOverlay[setAttribute]('class',modalBackdropString+' fade');
+          newOverlay[setAttribute]('class', modalBackdropString + (self[animation] ? ' fade' : ''));
           overlay = newOverlay;
           DOC[body][appendChild](overlay);
         }
+        modalOverlay = 1;
       },
       removeOverlay = function() {
         overlay = queryElement('.'+modalBackdropString);
@@ -1249,7 +1249,6 @@
           modalOverlay = 0;
           DOC[body].removeChild(overlay); overlay = null;
         }
-        bootstrapCustomEvent.call(modal, hiddenEvent, component);      
       },
       keydownHandlerToggle = function() {
         if (hasClass(modal,inClass)) {
@@ -1283,12 +1282,13 @@
       triggerHide = function() {
         modal[style].display = '';
         element && (setFocus(element));
-        
+        bootstrapCustomEvent.call(modal, hiddenEvent, component);
+  
         (function(){
           if (!getElementsByClassName(DOC,component+' '+inClass)[0]) {
             resetScrollbar();
             removeClass(DOC[body],component+'-open');
-            overlay && hasClass(overlay,'fade') ? (removeClass(overlay,inClass), emulateTransitionEnd(overlay,removeOverlay)) 
+            overlay && hasClass(overlay,'fade') ? (removeClass(overlay,inClass), emulateTransitionEnd(overlay,removeOverlay))
             : removeOverlay();
   
             resizeHandlerToggle();
@@ -1338,9 +1338,7 @@
         stringModal in currentOpen && currentOpen[stringModal].hide();
       }
   
-      if ( this[backdrop] ) {
-        !modalOverlay && createOverlay();
-      }
+      this[backdrop] && !modalOverlay && createOverlay();
   
       if ( overlay && modalOverlay && !hasClass(overlay,inClass)) {
         overlay[offsetWidth]; // force reflow to enable trasition
@@ -1359,7 +1357,7 @@
         modal[setAttribute](ariaHidden, false);
   
         hasClass(modal,'fade') ? emulateTransitionEnd(modal, triggerShow) : triggerShow();
-      }, supportTransitions && overlay ? overlayDelay : 0);
+      }, supportTransitions && overlay && overlayDelay ? overlayDelay : 0);
     };
     this.hide = function() {
       bootstrapCustomEvent.call(modal, hideEvent, component);
@@ -1371,7 +1369,7 @@
   
       setTimeout(function(){
         hasClass(modal,'fade') ? emulateTransitionEnd(modal, triggerHide) : triggerHide();
-      }, supportTransitions && overlay ? overlayDelay : 0);
+      }, supportTransitions && overlay && overlayDelay ? overlayDelay : 1);
     };
     this.setContent = function( content ) {
       queryElement('.'+component+'-content',modal)[innerHTML] = content;
