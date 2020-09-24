@@ -1,5 +1,5 @@
 /*!
-  * Native JavaScript for Bootstrap v3.0.11 (https://thednp.github.io/bootstrap.native/)
+  * Native JavaScript for Bootstrap v3.0.13 (https://thednp.github.io/bootstrap.native/)
   * Copyright 2015-2020 © dnp_theme
   * Licensed under MIT (https://github.com/thednp/bootstrap.native/blob/master/LICENSE)
   */
@@ -1372,7 +1372,6 @@ function Toast(element,options) {
   options = options || {};
   var self = this,
       toast, timer = 0,
-      hasFadeClass,
       animationData,
       autohideData,
       delayData,
@@ -1422,7 +1421,6 @@ function Toast(element,options) {
     ops.animation ? emulateTransitionEnd(toast, disposeComplete) : disposeComplete();
   };
   element = queryElement(element);
-  hasFadeClass = element.classList.contains('fade');
   element.Toast && element.Toast.dispose();
   toast = element.closest('.toast');
   animationData = element.getAttribute('data-animation');
@@ -1432,7 +1430,7 @@ function Toast(element,options) {
   hideCustomEvent = bootstrapCustomEvent('hide', 'toast');
   shownCustomEvent = bootstrapCustomEvent('shown', 'toast');
   hiddenCustomEvent = bootstrapCustomEvent('hidden', 'toast');
-  ops.animation = /*!hasFadeClass ||*/ options.animation === false || animationData === 'false' ? 0 : 1;
+  ops.animation = options.animation === false || animationData === 'false' ? 0 : 1;
   ops.autohide = options.autohide === false || autohideData === 'false' ? 0 : 1;
   ops.delay = parseInt(options.delay || delayData) || 500;
   if ( !element.Toast ) {
@@ -1637,7 +1635,7 @@ function removeDataAPI(lookUp) {
   }
 }
 
-var version = "3.0.11";
+var version = "3.0.13";
 
 var index = {
   Alert: Alert,
