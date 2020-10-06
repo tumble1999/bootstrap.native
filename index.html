@@ -2683,7 +2683,7 @@ myScrollSpyInit.dispose();
                     <tr>
                       <td><code>height</code></td>
                       <td><em>boolean</em></td>
-                      <td><em>false</em></td>
+                      <td><em>true</em></td>
                       <td>Option to enable animation of the height of the <code>.tab-content</code> tabs container. Can be set via
                         JavaScript or the <code>data-height="true"</code> attribute.</td>
                     </tr>
@@ -2705,6 +2705,8 @@ myScrollSpyInit.dispose();
                 <dd class="col-md-10">The public method to switch to a certain tab of your choice via JavaScript. If that tab is already 
                   visible / active or the method is called while animation is running, the call has no effect.</dd>
               </dl>
+              <dt class="col-md-2">.dispose()</dt>
+              <dd class="col-md-10">Removes the component from the target element.</dd>
             </section>
           
             <section id="tabEvents">
@@ -2907,7 +2909,7 @@ myLastTab.addEventListener('show.bs.tab', function(event){
 
           <section id="componentToast">
             <h2>Toast</h2>
-            <p>The <b>Toast</b> component covers the original events and its specific instance methods, but has no option.
+            <p>The <b>Toast</b> component covers the original events and its specific instance methods as well as specific options.
               The component does not require the <code>alert-dismissible</code> class in order to work.</p>
             <p>For design customization and accessibility guidelines please refer back to the 
               <a href="https://getbootstrap.com/docs/4.5/components/toasts/">original plugin</a>. </p>
@@ -3190,9 +3192,6 @@ myToastInit.dispose();
                 <dt class="col-md-2">.show()</dt>
                 <dd class="col-md-10">The method shows an initialized tooltip. When the method is executed, it will
                   always <b>create</b> a new tooltip and append it into your desired container.</dd>
-                <dt class="col-md-2">.hide()</dt>
-                <dd class="col-md-10">The method hides an initialized tooltip and remove it from it's container and
-                  also from the memory, as if you would automatically <em>destroy</em> it.</dd>
                 <dt class="col-md-2">.hide()</dt>
                 <dd class="col-md-10">The method hides an initialized tooltip and remove it from it's container and
                   also from the memory, as if you would automatically <em>destroy</em> it.</dd>
